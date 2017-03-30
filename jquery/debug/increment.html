@@ -1,0 +1,22 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>jquery中on()绑定事件方式</title>
+    <meta charset="UTF-8">
+    <script type="text/javascript">
+        function a(){
+            var i=0;
+            function b(){
+                 alert(++i);
+            }
+            return b;
+        }
+
+        var c = a();
+        c();
+        c();
+    </script>
+</head>
+<body>
+    <p>debug finish</p>
+</body>
+</html>
