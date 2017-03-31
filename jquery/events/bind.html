@@ -7,7 +7,6 @@
         function getHtml(){
             console.log("e:" + event.currentTarget);
             alert(this.innerHTML);
-
         }
         $(function () {
             /*bind的特点就是会把监听器绑定到目标元素上，有一个绑一个，在页面上的元素不会动态添加的时候使用它没什么问题。但如果列表中动态增加一个“列表元素5”，点击它是没有反应的，必须再bind一次才行*/
