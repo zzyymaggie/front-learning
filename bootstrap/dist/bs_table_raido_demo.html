@@ -55,9 +55,17 @@
                 description: "描述"
             },
         ];
- 
+        //We have 2 methods to set table options. 1)refreshOptions; 2)add attributes in table element
+        var options = $('#table').bootstrapTable('getOptions');
+        options.pagination = true;
+        options.pageNumber = 1;
+        options.pageSize = 3;
+        options.pageList = [10,20,50];
+        options.sidePagination = 'client';
+        $('#table').bootstrapTable('refreshOptions', options);
+
         $('#table').bootstrapTable('load', data);
-	
+        
         var $result = $('#eventsResult');
  
         
@@ -91,7 +99,9 @@
 <div class="alert alert-success" id="eventsResult">
     Here is the result of event.
 </div>
-<table id="table" data-toggle="table" data-pagination="true" data-side-pagination='client' data-page-number='1' data-page-size='10' data-page-list='[10, 20, 50, 100, 200, 500]'>
+<!-- We have 2 methods to set table options. 1)refreshOptions; 2)add attributes in table element -->
+<!--<table id="table" data-toggle="table" data-pagination="true" data-side-pagination='client' data-page-number='1' data-page-size='10' data-page-list='[10, 20, 50, 100, 200, 500]'> -->
+<table id="table" data-toggle="table">
     <thead>
         <tr>
 			<th data-radio="true" data-field="uid" data-formatter="radioFormatter"></th>
@@ -109,6 +119,8 @@
 <script type="text/javascript">
     $('#btn').click(function() {
         console.dir($('#table').bootstrapTable('getSelections'));
+
+        console.dir($('#table').bootstrapTable('getData'));
     });
 </script>
 </html>
