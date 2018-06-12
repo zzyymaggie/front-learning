@@ -38,11 +38,53 @@ $(function () {
          }
       ]
     }];
-});
+    $.each(columns, function(i, item) {
+      $('#globalRoles tr.group-row').append('<th colspan="' + item.permissions.length + '">' + item.group_name + '</th>');
+        $.each(item.permissions, function(j, permission){
+           $('#globalRoles tr.caption-row').append(
+            '<td>' + permission.permission_name + '</td>');
+        });
+    });
 
+
+    var dataJson = [{
+      role_id : 1,
+      role_name : 'tars-admin',
+      role_desc : 'tars-admin-desc',
+      server_groups: '/TarsIM/*',
+      groups: [123]
+    }];
+
+    var $box = $('#globalRoles');
+    $.each(dataJson, function(i, item) {
+        var htmlStr = template('row-tpl', item);
+        $rowHtmlStr = $(htmlStr);
+        //$box.append(htmlStr);
+        var role_id = item.role_id;
+        $.each(columns, function(j, group) {
+            var group_id = group.group_id;
+            var key = role_id + "__" + group_id;
+            var index = $.inArray(group_id, item.groups);
+            var checked = false;
+            if(index > -1) {
+              checked = true;
+            }
+
+            var checkboxTdData = {
+              key : key,
+              length : group.permissions.length,
+              checked : checked === true ? 'checked' : ''
+            }
+
+            var checkedTdStr = template('checkbox-td-tpl', checkboxTdData);
+            $rowHtmlStr.append(checkedTdStr);
+            $box.append($rowHtmlStr);
+
+        });
+    });
 
 $('#yui-gen4-button').click(function () {
-    var sumbitData = {};
+    var formObject = {};
     var formArray =$("#addRoleForm").serializeArray();
     $.each(formArray,function(i,item){
         formObject[item.name] = item.value;
@@ -50,7 +92,7 @@ $('#yui-gen4-button').click(function () {
 
     $.ajax({
         url:'http://localhost:8080/role-strategy/rolesSubmit',
-        data:submitData,
+        data:formObject,
         cache:false,//false是不缓存，true为缓存
         async:true,//true为异步，false为同步
         beforeSend:function(){
@@ -85,7 +127,26 @@ $('#addRoleBtn').click(function () {
     }
     //检查是否存在，如果存在要弹窗提示，否则才添加
     var $box = $('#globalRoles');
-    htmlStr = template('tpl',formObject);
-    $box.append(htmlStr);
+    var htmlStr = template('row-tpl',formObject);
+    $rowHtmlStr = $(htmlStr);
+    var role_id = 'PH1';
+    $.each(columns, function(j, group) {
+          var group_id = group.group_id;
+          var key = role_id + "__" + group_id;
+          var checked = false;
+          var checkboxTdData = {
+            key : key,
+            length : group.permissions.length,
+            checked : checked === true ? 'checked' : ''
+          }
+
+          var checkedTdStr = template('checkbox-td-tpl', checkboxTdData);
+          $rowHtmlStr.append(checkedTdStr);
+          $box.append($rowHtmlStr);
+
+      });
+   }); 
+    
 });
+
 

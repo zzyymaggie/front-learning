@@ -21,18 +21,18 @@
         <table id="globalRoles" class="table table-bordered table-condensed" name="data">
             <tbody>
             <tr class="group-row">
-                <th rowspan="2" class="start"></th>
-                <th rowspan="2" class="pane-header blank">Role</th>
-                <th rowspan="2" class="pane-header blank">Role Description</th>
-                <th rowspan="2" class="pane-header blank">Pattern</th>
-                <th colspan="2" class="pane-header">Overall</th>
-                <th colspan="2" class="pane-header">Credentials</th>
-                <th colspan="2" class="pane-header">Gerrit</th>
-                <th colspan="5" class="pane-header">Job</th>
-                <th colspan="0" class="pane-header">Env. Inject</th>
+                <th rowspan="2"></th>
+                <th rowspan="2">Role</th>
+                <th rowspan="2">Role Description</th>
+                <th rowspan="2">Pattern</th>
+                <!-- <th colspan="2">Overall</th>
+                <th colspan="2">Credentials</th>
+                <th colspan="2">Gerrit</th>
+                <th colspan="5">Job</th> -->
+                
             </tr>
             <tr class="caption-row">
-                <td>
+                <!-- <td>
                     Administer
                 </td>
                 <td>
@@ -64,11 +64,9 @@
                 </td>
                 <td>
                     Update
-                </td>
-                <td>
-                </td>
+                </td> -->
             </tr>
-            <tr name="[admin]">
+            <!-- <tr name="[admin]">
                 <td class="start"><a href="http://localhost:8080/role-strategy/manage-roles#"><img
                         src="./image/stop.gif" alt="remove"></a></td>
                 <td class="left-most role_name">tars-admin</td>
@@ -80,9 +78,8 @@
                 <td colspan="2"><input name="user1_group2" checked="true" type="checkbox"></td>
                 <td colspan="2"><input name="user1_group3" type="checkbox"></td>
                 <td colspan="5"><input name="user1_group4" type="checkbox"></td>
-                <td class=""><a href="http://localhost/role-strategy/manage-roles#"><img
-                        src="./image/stop.gif" alt="remove"></a></td>
-            </tr>
+                
+            </tr> -->
             </tbody>
         </table>
     </form>
@@ -92,19 +89,19 @@
             <div class="row form-group">
                 <label class="control-label col-lg-1">角色名称</label>
                 <div class="col-lg-5 col-md-6">
-                    <input class="form-control" name="name" type="text">
+                    <input class="form-control" name="role_name" type="text">
                 </div>
             </div>
             <div class="row form-group">
                 <label class="control-label col-lg-1">角色描述</label>
                 <div class="col-lg-5 col-md-6">
-                    <input class="form-control" name="desc" type="text">
+                    <input class="form-control" name="role_desc" type="text">
                 </div>
             </div>
             <div class="row form-group">
                 <label class="control-label col-lg-1">所属服务组</label>
                 <div class="col-lg-5 col-md-6">
-                    <input class="form-control" name="groups" type="text">
+                    <input class="form-control" name="server_groups" type="text">
                 </div>
             </div>
         </div>
@@ -114,22 +111,22 @@
     <button type="button" tabindex="0" id="yui-gen4-button">Save</button>
 </div>
 
-<script type="text/html" id="tpl">
-    <tr name="[{{name}}]">
-        <td class="start"><a href="http://localhost:8080/role-strategy/manage-roles#"><img
-                src="./image/stop.gif" alt="remove"></a></td>
-        <td class="left-most" class="role_name">{{name}}</td>
-        <td class="left-most">{{desc}}</td>
-        <td class="in-place-edit">
-            {{groups}}
-            <input name="[pattern]" type="hidden" value="sunlands-tars(/.*|/?)"></td>
-        <td colspan="2"><input name="user{{user_id}}_group1" type="checkbox"></td>
-        <td colspan="2"><input name="user{{user_id}}_group2" type="checkbox"></td>
-        <td colspan="2"><input name="user{{user_id}}_group3" type="checkbox"></td>
-        <td colspan="5"><input name="user{{user_id}}_group4" type="checkbox"></td>
-        <td class=""><a href="http://localhost/role-strategy/manage-roles#"><img
-                src="./image/stop.gif" alt="remove"></a></td>
+<script type="text/html" id="row-tpl">
+<tr>
+                <td class="start"><a href="http://localhost:8080/role-strategy/manage-roles#"><img
+                        src="./image/stop.gif" alt="remove"></a></td>
+                <td class="left-most role_name">{{role_name}}</td>
+                <td class="left-most">{{role_desc}}</td>
+                <td class="in-place-edit">
+                    {{server_groups}}
+                    <input name="[pattern]" type="hidden" value="sunlands-tars(/.*|/?)"></td>
+               
+            </tr>
 </script>
+<script type="text/html" id="checkbox-td-tpl">
+    <td colspan="{{length}}"><input name="{{key}}" type="checkbox" {{checked}}></td>
+</script>
+
 <script type="text/javascript" src="js/matrix.js"></script>
 
 </body>
