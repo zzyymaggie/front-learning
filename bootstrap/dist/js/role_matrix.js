@@ -46,13 +46,12 @@ $(function () {
         });
     });
 
-
     var dataJson = [{
       role_id : 1,
-      role_name : 'tars-admin',
-      role_desc : 'tars-admin-desc',
-      server_groups: '/TarsIM/*',
-      groups: [123]
+      name : 'tars-admin',
+      desc : 'tars-admin-desc',
+      server_groups: ['TarsIM','DemoApp'],
+      right_groups: [123]
     }];
 
     var $box = $('#globalRoles');
@@ -62,7 +61,7 @@ $(function () {
         $.each(columns, function(j, group) {
             var group_id = group.group_id;
             var key = role_id + "__" + group_id;
-            var index = $.inArray(group_id, item.groups);
+            var index = $.inArray(group_id, item.right_groups);
             var checked = false;
             if(index > -1) {
                 checked = true;
@@ -74,12 +73,12 @@ $(function () {
             };
             item.group_info.push(group_info);
         });
+        item.server_groups_str =  item.server_groups.join(',');
         var htmlStr = template('row-tpl', item);
-        $rowHtmlStr = $(htmlStr);
         $box.append(htmlStr);
     });
 
-    $('#yui-gen4-button').click(function () {
+    $('#role_save_button').on('click', function () {
         var formObject = {};
         var formArray =$("#FormID").serializeArray();
         $.each(formArray,function(i,item){
@@ -107,8 +106,12 @@ $(function () {
         })
     });
 
-    $('#addRoleBtn').click(function () {
-        var formObject = {};
+    $('#addRoleBtn').on('click', function () {
+        var $msg = $('#dlg-ret');
+        var formObject = {
+            //Tars系统所属服务组固定为/Tars
+            own_server_group : '/Tars'
+        };
         var formArray =$("#addRoleForm").serializeArray();
         $.each(formArray,function(i,item){
             formObject[item.name] = item.value.trim();
@@ -117,12 +120,19 @@ $(function () {
         $(".role_name").each(function(){
             roleNameArray.push($(this).text().trim());
         });
-        var index = $.inArray(formObject.name, roleNameArray);
-        if(index > -1) {
-            alert(formObject.name + ' exists, please add another role!');
+        if(!formObject.name) {
+            $msg.html('<div class="alert alert-danger" role="alert">角色名不能为空！</div>');
+            showDialog($msg,'信息提示');
             return;
         }
+        var index = $.inArray(formObject.name, roleNameArray);
         //检查是否存在，如果存在要弹窗提示，否则才添加
+        if(index > -1) {
+            $msg.html('<div class="alert alert-danger" role="alert">角色名已存在，请换一个角色名！</div>');
+            showDialog($msg,'信息提示');
+            return;
+        }
+        //TODO:调用新增角色接口获取role_id，这里暂时mock一个role_id来进行效果验证。
         var $box = $('#globalRoles');
         formObject.group_info = [];
         var role_id = 'PH' + new Date().getTime();
@@ -142,7 +152,71 @@ $(function () {
         $box.append(htmlStr);
     });
 
-    
+   $('#globalRoles').on('click', '.select_server_group_scope', function() {
+
+       var selectedGroups = [];
+       if($(this).attr("value")) {
+           selectedGroups = $(this).attr("value").split(',');
+       }
+       var self = $(this);
+
+       var $tree = $('#tree');
+       //当前只需要支持服务组，所以只有一层，以后如果精细到服务，添加nodes属性即可。
+       var tree = [
+           {
+               text: "TarsIM",
+           },
+           {
+               text: "DemoApp"
+           },
+           {
+               text: "Parent 3"
+           },
+           {
+               text: "Parent 4"
+           },
+           {
+               text: "Parent 5"
+           }
+       ];
+       $.each(tree, function(index, item){
+           var index = $.inArray(item.text, selectedGroups);
+           if(index > -1) {
+               item.state = {
+                   checked : true
+               }
+           }
+       });
+
+       $('#tree').treeview({
+           data: tree,         // 数据源
+           showCheckbox: true,   //是否显示复选框
+           emptyIcon: '',    //没有子节点的节点图标
+           highlightSelected: false,
+
+       });
+
+       var $ret = $('#dlg-ret');
+       showDialog($tree,'选择服务组', {
+           '取消': function () {
+               this.modal('hide');
+           },
+           '确定': function () {
+               var arr = $('#tree').treeview('getChecked');
+               if(arr.length == 0) {
+                   $ret.html('<div class="alert alert-danger">请至少选择一个服务组</div>');
+                   showDialog($ret,'选择权限范围');
+                   return;
+               }
+               var server_groups = [];
+               for (var key in arr) {
+                   server_groups.push(arr[key].text);
+               }
+               self.append('<input type="hidden" name="server_groups" value="' + server_groups.join(',') + '"/>');
+               this.modal('hide');
+           }
+       });
+   });
 });
 
 
