@@ -57,30 +57,62 @@ $(function () {
 
     var $box = $('#globalRoles');
     $.each(dataJson, function(i, item) {
-        var htmlStr = template('row-tpl', item);
-        $rowHtmlStr = $(htmlStr);
-        //$box.append(htmlStr);
         var role_id = item.role_id;
+        item.group_info = [];
         $.each(columns, function(j, group) {
             var group_id = group.group_id;
             var key = role_id + "__" + group_id;
             var index = $.inArray(group_id, item.groups);
             var checked = false;
             if(index > -1) {
-              checked = true;
+                checked = true;
             }
-
-            var checkboxTdData = {
-              key : key,
-              length : group.permissions.length,
-              checked : checked === true ? 'checked' : ''
-            }
-
-            var checkedTdStr = template('checkbox-td-tpl', checkboxTdData);
-            $rowHtmlStr.append(checkedTdStr);
-            $box.append($rowHtmlStr);
-
+            var group_info = {
+                key : key,
+                length : group.permissions.length,
+                checked : checked === true ? 'checked' : ''
+            };
+            item.group_info.push(group_info);
         });
+        var htmlStr = template('row-tpl', item);
+        $rowHtmlStr = $(htmlStr);
+        $box.append(htmlStr);
+
+
+        // var group_id = group.group_id;
+        // var key = role_id + "__" + group_id;
+        // var index = $.inArray(group_id, item.groups);
+        // var checked = false;
+        // if(index > -1) {
+        //     checked = true;
+        // }
+        // item['groups_info'] = {
+        //     length :
+        // };
+        // var htmlStr = template('row-tpl', item);
+        // $rowHtmlStr = $(htmlStr);
+        // //$box.append(htmlStr);
+        //
+        // $.each(columns, function(j, group) {
+        //     var group_id = group.group_id;
+        //     var key = role_id + "__" + group_id;
+        //     var index = $.inArray(group_id, item.groups);
+        //     var checked = false;
+        //     if(index > -1) {
+        //       checked = true;
+        //     }
+        //
+        //     var checkboxTdData = {
+        //       key : key,
+        //       length : group.permissions.length,
+        //       checked : checked === true ? 'checked' : ''
+        //     }
+        //
+        //     var checkedTdStr = template('checkbox-td-tpl', checkboxTdData);
+        //     $rowHtmlStr.append(checkedTdStr);
+        //     $box.append($rowHtmlStr);
+        //
+        // });
     });
 
 $('#yui-gen4-button').click(function () {

@@ -113,18 +113,17 @@
 
 <script type="text/html" id="row-tpl">
 <tr>
-                <td class="start"><a href="http://localhost:8080/role-strategy/manage-roles#"><img
-                        src="./image/stop.gif" alt="remove"></a></td>
-                <td class="left-most role_name">{{role_name}}</td>
-                <td class="left-most">{{role_desc}}</td>
-                <td class="in-place-edit">
-                    {{server_groups}}
-                    <input name="[pattern]" type="hidden" value="sunlands-tars(/.*|/?)"></td>
-               
-            </tr>
-</script>
-<script type="text/html" id="checkbox-td-tpl">
-    <td colspan="{{length}}"><input name="{{key}}" type="checkbox" {{checked}}></td>
+        <td class="start"><a href="http://localhost:8080/role-strategy/manage-roles#"><img
+                src="./image/stop.gif" alt="remove"></a></td>
+        <td class="left-most role_name">{{role_name}}</td>
+        <td class="left-most">{{role_desc}}</td>
+        <td class="in-place-edit">
+            {{server_groups}}
+            <input name="[pattern]" type="hidden" value="sunlands-tars(/.*|/?)"></td>
+        {{ each group_info as it}}
+        <td colspan="{{it.length}}"><input name="{{it.key}}" type="checkbox" {{it.checked}}></td>
+        {{/each}}
+</tr>
 </script>
 
 <script type="text/javascript" src="js/matrix.js"></script>
