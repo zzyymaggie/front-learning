@@ -77,107 +77,71 @@ $(function () {
         var htmlStr = template('row-tpl', item);
         $rowHtmlStr = $(htmlStr);
         $box.append(htmlStr);
-
-
-        // var group_id = group.group_id;
-        // var key = role_id + "__" + group_id;
-        // var index = $.inArray(group_id, item.groups);
-        // var checked = false;
-        // if(index > -1) {
-        //     checked = true;
-        // }
-        // item['groups_info'] = {
-        //     length :
-        // };
-        // var htmlStr = template('row-tpl', item);
-        // $rowHtmlStr = $(htmlStr);
-        // //$box.append(htmlStr);
-        //
-        // $.each(columns, function(j, group) {
-        //     var group_id = group.group_id;
-        //     var key = role_id + "__" + group_id;
-        //     var index = $.inArray(group_id, item.groups);
-        //     var checked = false;
-        //     if(index > -1) {
-        //       checked = true;
-        //     }
-        //
-        //     var checkboxTdData = {
-        //       key : key,
-        //       length : group.permissions.length,
-        //       checked : checked === true ? 'checked' : ''
-        //     }
-        //
-        //     var checkedTdStr = template('checkbox-td-tpl', checkboxTdData);
-        //     $rowHtmlStr.append(checkedTdStr);
-        //     $box.append($rowHtmlStr);
-        //
-        // });
     });
 
-$('#yui-gen4-button').click(function () {
-    var formObject = {};
-    var formArray =$("#addRoleForm").serializeArray();
-    $.each(formArray,function(i,item){
-        formObject[item.name] = item.value;
+    $('#yui-gen4-button').click(function () {
+        var formObject = {};
+        var formArray =$("#FormID").serializeArray();
+        $.each(formArray,function(i,item){
+            formObject[item.name] = item.value;
+        });
+
+        $.ajax({
+            url:'http://localhost:8080/role-strategy/rolesSubmit',
+            method : 'post',
+            data:formObject,
+            cache:false,//false是不缓存，true为缓存
+            async:true,//true为异步，false为同步
+            beforeSend:function(){
+                //请求前
+            },
+            success:function(result){
+                //请求成功时
+            },
+            complete:function(){
+                //请求结束时
+            },
+            error:function(){
+                //请求失败时
+            }
+        })
     });
 
-    $.ajax({
-        url:'http://localhost:8080/role-strategy/rolesSubmit',
-        data:formObject,
-        cache:false,//false是不缓存，true为缓存
-        async:true,//true为异步，false为同步
-        beforeSend:function(){
-            //请求前
-        },
-        success:function(result){
-            //请求成功时
-        },
-        complete:function(){
-            //请求结束时
-        },
-        error:function(){
-            //请求失败时
+    $('#addRoleBtn').click(function () {
+        var formObject = {};
+        var formArray =$("#addRoleForm").serializeArray();
+        $.each(formArray,function(i,item){
+            formObject[item.name] = item.value.trim();
+        });
+        var roleNameArray = [];
+        $(".role_name").each(function(){
+            roleNameArray.push($(this).text().trim());
+        });
+        var index = $.inArray(formObject.name, roleNameArray);
+        if(index > -1) {
+            alert(formObject.name + ' exists, please add another role!');
+            return;
         }
-    })
-});
-
-$('#addRoleBtn').click(function () {
-    var formObject = {};
-    var formArray =$("#addRoleForm").serializeArray();
-    $.each(formArray,function(i,item){
-        formObject[item.name] = item.value.trim();
+        //检查是否存在，如果存在要弹窗提示，否则才添加
+        var $box = $('#globalRoles');
+        formObject.group_info = [];
+        var role_id = 'PH' + new Date().getTime();
+        $.each(columns, function(j, group) {
+            var checkboxTdData;
+            var group_id = group.group_id;
+            var key = role_id + "__" + group_id;
+            var checked = false;
+            checkboxTdData = {
+                key: key,
+                length: group.permissions.length,
+                checked: checked === true ? 'checked' : ''
+            };
+            formObject.group_info.push(checkboxTdData);
+        });
+        var htmlStr = template('row-tpl',formObject);
+        $box.append(htmlStr);
     });
-    var roleNameArray = [];
-    $(".role_name").each(function(){
-        roleNameArray.push($(this).text().trim());
-    });
-    var index = $.inArray(formObject.name, roleNameArray);
-    if(index > -1) {
-        alert(formObject.name + ' exists, please add another role!');
-        return;
-    }
-    //检查是否存在，如果存在要弹窗提示，否则才添加
-    var $box = $('#globalRoles');
-    var htmlStr = template('row-tpl',formObject);
-    $rowHtmlStr = $(htmlStr);
-    var role_id = 'PH1';
-    $.each(columns, function(j, group) {
-          var group_id = group.group_id;
-          var key = role_id + "__" + group_id;
-          var checked = false;
-          var checkboxTdData = {
-            key : key,
-            length : group.permissions.length,
-            checked : checked === true ? 'checked' : ''
-          }
 
-          var checkedTdStr = template('checkbox-td-tpl', checkboxTdData);
-          $rowHtmlStr.append(checkedTdStr);
-          $box.append($rowHtmlStr);
-
-      });
-   }); 
     
 });
 
