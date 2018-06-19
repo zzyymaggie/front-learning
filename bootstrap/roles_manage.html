@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <link rel="stylesheet" href="lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="lib/css/bootstrap-treeview.css" rel="stylesheet" />
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="lib/js/jquery.min.js"></script>
+    <script src="lib/js/bootstrap.min.js"></script>
+    <script src="lib/js/template.js"></script>
+    <script src="js/common.js"></script>
+    <script src="lib/js/bootstrap-treeview.js"></script>
+    <script type="text/javascript" src="js/role_matrix.js"></script>
+    <style>
+        .table td, .table th {
+            text-align: center;
+            vertical-align: middle!important;
+        }
+    </style>
+</head>
+<body>
+<h4 id="main_title">角色管理</h4>
+
+<form id="FormID">
+    <table id="global-roles" class="table table-bordered table-condensed" name="data">
+        <tbody>
+        <tr class="group-row">
+            <th rowspan="2"></th>
+            <th rowspan="2">Role</th>
+            <th rowspan="2">Role Description</th>
+            <th rowspan="2">Pattern</th>
+        </tr>
+        <tr class="caption-row"></tr>
+        </tbody>
+    </table>
+</form>
+
+<form id="add-role-form" class="form-horizontal" role="form">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">角色名称</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="name" placeholder="请输入角色名字">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">角色描述</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="desc" placeholder="请输入角色描述">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-1 col-sm-2">
+            <button type="button" id="add-role-button" class="btn btn-default">添加角色</button>
+        </div>
+    </div>
+</form>
+
+<div class="tc">
+    <button type="button" id="role-save-button" class="btn btn-primary">提交</button>
+</div>
+
+<div id="tree" style="display: none;">
+</div>
+<script type="text/html" id="row-tpl">
+    <tr>
+        <td class="start"><a href="http://localhost:8080/role-strategy/manage-roles#"><img
+                src="img/stop.gif" alt="remove"></a></td>
+        <input type="hidden" name="{{id}}__name" value="{{name}}"/>
+        <input type="hidden" name="{{id}}__desc" value="{{desc}}"/>
+        <td class="left-most role_name">{{name}}</td>
+        <td class="left-most">{{desc}}</td>
+        <td class="in-place-edit">
+            <a href="#" class="btn btn-default select_server_group_scope" value="{{server_groups_str}}">选择
+                <input type="hidden" name="{{id}}__server_groups" value="{{server_groups_str}}"/>
+            </a>
+        </td>
+        {{ each group_info as it}}
+        <td colspan="{{it.length}}"><input name="{{it.key}}" type="checkbox" {{it.checked}}></td>
+        {{/each}}
+    </tr>
+</script>
+
+<div id="dlg-ret" class="form-horizontal" style="display:none"></div>
+</body>
+</html>
