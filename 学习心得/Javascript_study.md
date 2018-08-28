@@ -13,6 +13,7 @@ ES4:过于复杂，废弃了。
 ES5: ES4废弃，**ECMAScript 3.1**最终成为**ECMA-262第5版**。第5版力求澄清第3版中已知的歧义并添加了新的功能，包括原生**JSON对象**、**继承的方法**和**高级属性定义**，以及严格模式。 
 
 详细的手册：http://lzw.me/pages/ecmascript
+MDN手册：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Classes#%E5%AE%9A%E4%B9%89%E7%B1%BB
 
 一个完整的**JavaScript**实现应由三个部分组成：
 
