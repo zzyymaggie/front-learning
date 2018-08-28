@@ -37,19 +37,19 @@ http://jspang.com/post/es6.html
 新增了一些有用的特性：
 
 - let/const
-
 - 字符串特性
   - 字符串模板
   - 字符串查找
     - includes/startsWith/endsWith
-
 - 数字操作
-
 - 数组新方法
   - Array.of
 - 箭头函数
 - 对象
 - 新增的数据结构 Set Map
+- Proxy
+  - Proxy的应用可以使函数更加强大，业务逻辑更加清楚，而且在编写自己的框架或者通用组件时非常好用.
+  - 还在研究中
 - Promise对象的使用 
   - 特别有用，将回调转成链式调用，可读性增强了不少。
 - class类
@@ -71,5 +71,5 @@ http://jspang.com/post/es6.html
 |&	|&#38;	|&amp;|
 |<	|&#60;	|&lt;|
 |>	|&#62;	|&gt;|
-|撇号(`)	| &#39;| &apos;(IE不支持) | 
+|撇号(`)	| &#39;| &apos;(IE不支持) |
 
