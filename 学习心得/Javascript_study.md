@@ -55,7 +55,11 @@ http://jspang.com/post/es6.html
 - class类
 - 模块化操作
 
-
+> 在ES6前， 前端就使用RequireJS或者seaJS实现模块化， requireJS是基于AMD规范的模块化库，  而像seaJS是基于CMD规范的模块化库，  两者都是为了为了推广前端模块化的工具。
+>
+> 现在ES6自带了模块化， 也是JS第一次支持module， 在很久以后 ，我们可以直接作用**import**和**export**在浏览器中导入和导出各个模块了， 一个js文件代表一个js模块；
+>
+> 现代浏览器对模块(module)支持程度不同， 目前都是使用babelJS， 或者Traceur把ES6代码转化为兼容ES5版本的js代码。【https://www.cnblogs.com/diligenceday/p/5503777.html】
 
 # 其他
 
