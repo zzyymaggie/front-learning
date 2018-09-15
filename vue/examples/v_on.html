@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+    <title>v-on事件监听器</title>
+</head>
+<body>
+    <h1>v-on 事件监听器</h1>
+    <hr>
+    <div id="app">
+       本场比赛得分： {{count}}<br/>
+        <!-- 我们的v-on 还有一种简单的写法，就是用@代替。
+            <button @click="jianfen">减分</button>
+        -->
+       <button v-on:click="increase">加分</button>
+       <button v-on:click="decrease">减分</button>
+    </div>
+    <script type="text/javascript">
+        var app=new Vue({
+            el:'#app',
+            data:{
+                count:1
+            },
+            methods:{
+                increase:function(){
+                    this.count++;
+                },
+                decrease:function(){
+                    this.count--;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

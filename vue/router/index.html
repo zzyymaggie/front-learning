@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    /*.v-link-active:链接活跃时的 class */
+    .v-link-active{
+        color: red;
+        font-size: 30px;
+    }
+    </style>
+   <script src="https://cdn.bootcss.com/vue/2.4.4/vue.min.js"></script>
+   <script src="https://cdn.bootcss.com/vue-router/2.7.0/vue-router.min.js"></script>
+</head>
+<body>
+    <div id="nav">
+        <ul>
+            <!-- 比如：一个带有指令v-link='/a'的元素，只要当前路径以/a开头，此元素就会被判断为活跃 -->
+            <li><a href="javascript:;" v-link="{path:'/index'}">首页</a></li>
+            <li><a href="javascript:;" v-link="{path:'/content'}">内容</a></li>
+        </ul>
+        <!-- 内容展示区 -->
+        <router-view></router-view>
+    </div>
+</body>
+</html>
+<script>
+    //定义两个组件
+    var Index=Vue.extend({
+        template:'<h2>我是首页</h2>'
+    });
+    var Content=Vue.extend({
+        template:'<h2>我是内容页</h2>'
+    });
+    //整合组件
+    var app=Vue.extend({});
+    //声明一个路由
+    var Router=new VueRouter();
+    //获取全部关联
+    Router.map({
+        '/index':{
+            component:Index
+        },
+        '/content':{
+            component:Content
+        }
+    });
+    //开启路由
+    Router.start(app,'#nav');
+</script>

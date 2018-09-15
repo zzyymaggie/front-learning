@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+    <title>V-for 案例</title>
+</head>
+<body>
+    <h1>v-for指令用法</h1>
+    <hr>
+    <div id="app">
+       <ul>
+           <li v-for="student in sortStudents">
+               {{student.name}} - {{student.age}}
+           </li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        var app=new Vue({
+            el:'#app',
+            data:{
+                students:[
+                  {name:'jspang',age:32},
+                  {name:'Panda',age:30},
+                  {name:'PanPaN',age:21},
+                  {name:'King',age:45}
+                ]
+            },
+            computed:{
+                sortStudents:function(){
+                    return sortByKey(this.students,'age');
+                }
+            }
+        })
+
+       function sortByKey(array,key){
+            return array.sort(function(a,b){
+              var x=a[key];
+              var y=b[key];
+              return ((x<y)?-1:((x>y)?1:0));
+           });
+        }
+
+
+    </script>
+</body>
+</html>
